@@ -60,9 +60,14 @@ namespace csharp_gestore_eventi
             Prenotati = 0;
         }
 
+        public string DataFormattata()
+        {
+            return Data.ToString("dd/MM/yyyy");
+        }
+
         public override string ToString()
         {
-            return $"{Data.ToString("dd/MM/yyyy")} - {Titolo}";
+            return $"{DataFormattata()} - {Titolo}";
         }
 
         public void PrenotaPosti(int n)
