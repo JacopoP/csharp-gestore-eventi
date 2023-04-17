@@ -4,52 +4,58 @@
     {
         static void Main()
         {
-            Console.Write("Inserisci il nome dell'evento: ");
-            string? titolo = Console.ReadLine();
-            DateTime data;
+            string? titoloProgramma;
             do
             {
-                Console.Write("Inserisci la data dell'evento (gg/mm/yyyy): ");
-            } while (!DateTime.TryParse(Console.ReadLine(), out data));
-            int capienza;
+                Console.Write("Inserisci il nome del tuo Programma eventi: ");
+                titoloProgramma = Console.ReadLine();
+            } while (titoloProgramma == null);
+            ProgrammaEventi programma = new ProgrammaEventi(titoloProgramma);
+            uint n;
             do
             {
-                Console.Write("Inserisci il numero di posti totali: ");
-            } while (!Int32.TryParse(Console.ReadLine(), out capienza));
+                Console.Write("Indica il numero di eventi da inserire: ");
+            } while (!uint.TryParse(Console.ReadLine(), out n));
 
-            try
+            for(int i = 1; i <= n; i++)
             {
-                Evento evento = new Evento(titolo, data, capienza);
-                Console.WriteLine(evento.ToString());
-                int prenotati;
+                string? titolo;
+                DateTime data;
+                int capienza;
+                Console.Write($"\nInserisci il nome del {i}° evento: ");
+                titolo = Console.ReadLine();
                 do
                 {
-                    Console.Write("Quanti posti vuoi prenotare? ");
-                } while (!Int32.TryParse(Console.ReadLine(), out prenotati));
-                evento.PrenotaPosti(prenotati);
-                string? risposta;
-                int disdetti;
+                    Console.Write("Inserisci la data dell'evento (gg/mm/yyyy): ");
+                } while (!DateTime.TryParse(Console.ReadLine(), out data));
                 do
                 {
-                    evento.SituazionePosti();
-                    Console.Write("\nVuoi disdire dei posti (si/no) ");
-                    risposta = Console.ReadLine();
-                    if(risposta == "si")
-                    {
-                        do
-                        {
-                            Console.Write("Indica il numero di posti da disdire: ");
-                        }while(!Int32.TryParse(Console.ReadLine(), out disdetti));
-                        evento.DisdiciPosti(disdetti);
-                    }
-                } while (risposta == "si");
-                Console.WriteLine("Ok, va bene!");
-                evento.SituazionePosti();
+                    Console.Write("Inserisci il numero di posti totali: ");
+                } while (!Int32.TryParse(Console.ReadLine(), out capienza));
+
+                try
+                {
+                    Evento evento = new Evento(titolo, data, capienza);
+                    programma.AggiungiEvento(evento);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    Console.WriteLine("Reinserire l'evento");
+                    i--;
+                }
+                finally { Console.Write("\n"); }
             }
-            catch (Exception ex)
+            Console.WriteLine($"\nIl numero di eventi nel programma è: {programma.NumeroEventi()}");
+            Console.WriteLine("Ecco il tuo programma eventi:");
+            Console.WriteLine(programma.ToString());
+            DateTime filtro;
+            do
             {
-                Console.WriteLine(ex.Message);
-            }
+                Console.Write("Inserisci una data per sapere che eventi ci saranno (gg//mm/yyyyy): ");
+            } while (!DateTime.TryParse(Console.ReadLine(), out filtro));
+            Console.WriteLine(ProgrammaEventi.StringaLista(programma.FiltraData(filtro)));
+            programma.SvoutaLista();
         }
     }
 }

@@ -24,15 +24,23 @@ namespace csharp_gestore_eventi
 
         public List<Evento> FiltraData(DateTime data)
         {
-            return (List<Evento>) Eventi.Where(x => x.Data == data);
+            List <Evento> filtrato = new List <Evento>();
+            foreach (Evento ev in Eventi)
+            {
+                if(ev.Data == data)
+                    filtrato.Add(ev);
+            }
+            return filtrato;
         }
 
         public static string StringaLista(List<Evento> lista)
         {
+            if (lista.Count == 0)
+                return "La lista è vuota";
             string stringaLista = "";
             foreach (Evento ev in lista)
             {
-                stringaLista += ev.ToString();
+                stringaLista += ev.ToString() + "\n";
             }
             return stringaLista;
         }
@@ -52,7 +60,7 @@ namespace csharp_gestore_eventi
             string stringaLista = Titolo + "\n";
             foreach (Evento ev in Eventi)
             {
-                stringaLista += ev.ToString();
+                stringaLista += "\t" + ev.ToString() + "\n";
             }
             return stringaLista;
         }

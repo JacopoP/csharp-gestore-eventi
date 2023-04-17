@@ -32,7 +32,7 @@ namespace csharp_gestore_eventi
             set
             {
                 if (value < DateTime.Now)
-                    throw new ArgumentException("La data inserita non può essere precedente a oggi");
+                    throw new ArgumentException("Errore: la data inserita non può essere precedente a oggi");
                 data = value;
             } 
         }
@@ -46,7 +46,7 @@ namespace csharp_gestore_eventi
             private init
             {
                 if (value <= 0)
-                    throw new ArgumentException("Il numero di posti deve essere maggiore di 0");
+                    throw new ArgumentException("Errore: il numero di posti deve essere maggiore di 0");
                 capienza = value;
             }
         }
