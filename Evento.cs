@@ -8,8 +8,8 @@ namespace csharp_gestore_eventi
 {
     internal class Evento
     {
-        private string titolo;
-        public string Titolo 
+        private string? titolo;
+        public string? Titolo 
         {
             get
             {
@@ -18,7 +18,7 @@ namespace csharp_gestore_eventi
             set
             {
                 if (value == "" || value == null )
-                    throw new ArgumentNullException("Errore: il titolo non può essere vuoto");
+                    throw new ArgumentException("Errore: il titolo non può essere vuoto");
                 titolo = value;
             } 
         }
@@ -52,7 +52,7 @@ namespace csharp_gestore_eventi
         }
         public int Prenotati { get; private set; }
 
-        public Evento(string titolo, DateTime data, int capienza)
+        public Evento(string? titolo, DateTime data, int capienza)
         {
             Titolo = titolo;
             Data = data;
@@ -85,6 +85,12 @@ namespace csharp_gestore_eventi
             if (data < DateTime.Now)
                 throw new Exception("Impossibile disdire prenotazioni per un evento passato");
             Prenotati -= n;
+        }
+
+        public void SituazionePosti()
+        {
+            Console.WriteLine($"\nNumero di posti prenotati = {Prenotati}");
+            Console.WriteLine($"Numero di posti disponibili = {Capienza - Prenotati}");
         }
     }
 }
