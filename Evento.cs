@@ -50,7 +50,7 @@ namespace csharp_gestore_eventi
                 capienza = value;
             }
         }
-        public uint Prenotati { get; }
+        public int Prenotati { get; private set; }
 
         public Evento(string titolo, DateTime data, int capienza)
         {
@@ -63,6 +63,28 @@ namespace csharp_gestore_eventi
         public override string ToString()
         {
             return $"{Data.ToString("dd/MM/yyyy")} - {Titolo}";
+        }
+
+        public void PrenotaPosti(int n)
+        {
+            if (n < 0)
+                throw new ArgumentException("Valore di posti da prenotare non valido");
+            if (n > Capienza - Prenotati)
+                throw new ArgumentException("Il valore dei posti che si vuole prenotare eccede quelli disponibili");
+            if (data < DateTime.Now)
+                throw new Exception("Impossibile prenotare posti per un evento passato");
+            Prenotati += n;
+        }
+
+        public void DisdiciPosti(int n)
+        {
+            if (n < 0)
+                throw new ArgumentException("Valore di posti da disdire non valido");
+            if (n > Prenotati)
+                throw new ArgumentException("Il valore delle prenotazioni che si vuole disdire eccede quelle effettuate");
+            if (data < DateTime.Now)
+                throw new Exception("Impossibile disdire prenotazioni per un evento passato");
+            Prenotati -= n;
         }
     }
 }
