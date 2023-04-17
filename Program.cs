@@ -2,9 +2,10 @@
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            Console.WriteLine("Hello, World!");
+            Evento evento = new Evento("Pippo", new DateTime(2023, 04, 18), -150);
+            Console.WriteLine(evento.ToString());
         }
     }
 }
